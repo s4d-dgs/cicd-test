@@ -1,5 +1,5 @@
 name: "Deploy para VPS"
-on: 
+on:
   push:
     branches:
       - main
@@ -7,12 +7,11 @@ on:
 jobs:
   build_deploy:
     runs-on: ubuntu-latest
-
     steps:
-       - name: "Baixar o Código"
-         uses: actions/checkout@v4
+      - name: "Baixar o Código"
+        uses: actions/checkout@v4
       
-      - name: copy file via ssh password
+      - name: "Copy file via ssh password"
         uses: appleboy/scp-action@v0.1.7
         with:
           host: "147.93.35.180"
@@ -20,15 +19,15 @@ jobs:
           password: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "."
           target: "/cdci-teste"
-  
-        - name: "Build"
-          uses: appleboy/ssh-action@v1.2.0
+
+      - name: "Build"
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: "147.93.35.180"
           username: "root"
           password: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-          cd /cdci-teste
-          composer install --no-dev --no-progress -a
-          php artisan optimize
-          chown -R www-data:www-data .
+            cd /cdci-teste
+            composer install --no-dev --no-progress -a
+            php artisan optimize
+            chown -R www-data:www-data .
