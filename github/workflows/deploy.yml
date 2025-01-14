@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "."
           target: "/cdci-teste"
-
+  
         - name: "Build"
           uses: appleboy/ssh-action@v1.2.0
         with:
